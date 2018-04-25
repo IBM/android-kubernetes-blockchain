@@ -1,5 +1,5 @@
 [
- {"page":1,"link":"https://developer.ibm.com/code/2018/03/16/building-a-secret-map-an-experiment-in-the-economy-of-things/","title":"Kubecon","subtitle":"2018","image":"kubecoin logo","subtext":"TEST","description":"","imageEncoded":""},
+ {"page":1,"link":"https://developer.ibm.com/code/2018/03/16/building-a-secret-map-an-experiment-in-the-economy-of-things/","title":"Kubecon","subtitle":"2018","image":"kubecoin logo","subtext":".","description":"","imageEncoded":""},
  {"page":2,"link":"https://developer.ibm.com/code/patterns/use-mongoose-and-mongodb-to-serve-app-data/","title":"cloud","subtitle":"native","image":"Cloud","subtext":"","description":"this app was architected to scale on cloud technology","imageEncoded":""},
  {"page":3,"link":"https://developer.ibm.com/code/labs/Containers-Running-Your-First-Container","title":"accelerated","subtitle":"devops","image":"Run","subtext":"","description":"we built this quickly with a small team and some smart CI/CD","imageEncoded":""},
  {"page":4,"link":"https://developer.ibm.com/code/patterns/explore-hyperledger-fabric-through-a-complete-set-of-apis/","title":"secure","subtitle":"stack","image":"Secure","subtext":"","description":"this app trades your data anonymously and securely for ‘kubecoins’","imageEncoded":""},
