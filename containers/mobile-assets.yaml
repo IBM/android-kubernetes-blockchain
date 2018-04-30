@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mobile-assets
+  labels:
+    app: mobile-assets
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+  type: ClusterIP
+  selector:
+    app: mobile-assets
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mobile-assets-deployment
+  labels:
+    app: mobile-assets
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mobile-assets
+    spec:
+      containers:
+        - image: anthonyamanse/mobile-assets:1.0
+          imagePullPolicy: Always
+          name: mobile-assets
+          env:
+            - name: MONGODB_URL
+              value: ''
+          volumeMounts:
+            - name: mongodb-cert
+              mountPath: "/etc/ssl"
+              readOnly: true
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: mongodb-cert
+          secret:
+            secretName: mongodb-cert-secret

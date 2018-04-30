@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:paddingTop="15dp"
+        android:elevation="5dp"
+        android:background="#fff"
+        android:text="You are position 53 of 160"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/userInfoLayout"
+        android:paddingEnd="25dp"
+        android:paddingStart="25dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/status"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/userPosition"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="53"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/userImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/coin" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif"
+                android:text="Julie Day"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/userStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif"
+                android:text="12300 steps, 1km"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/leaderboardsList"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="25dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:layout_alignStart="@+id/userInfoLayout"
+        android:layout_alignEnd="@+id/userInfoLayout"
+        android:layout_below="@+id/userInfoLayout"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: org-ca-volume
+spec:
+  capacity:
+    storage: "20Gi"
+  accessModes:
+    - ReadWriteMany
+  claimRef:
+    namespace: default
+    name: org-ca-claim
+  nfs:
+    server: "NFS_SERVER"
+    path: "NFS_PATH"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "" # Comment this line to use dynamic provisioning (paid)
+  name: org-ca-claim
+  labels:
+    app: org-ca-volume
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi

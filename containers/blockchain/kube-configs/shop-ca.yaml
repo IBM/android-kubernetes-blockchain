@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-ca
+  labels:
+    app: shop-ca
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7054
+  selector:
+    app: shop-ca
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: shop-ca-deployment
+  labels:
+    app: shop-ca
+spec:
+  template:
+    metadata:
+      labels:
+        app: shop-ca
+    spec:
+      containers:
+      - image: anthonyamanse/kubecon-shop-ca:latest
+        imagePullPolicy: Always
+        command: ["fabric-ca-server"]
+        args: ["start","--db.datasource","db/shop-fabric-ca-server.db"]
+        name: shop-ca
+        ports:
+        - containerPort: 7054
+        env:
+          - name: FABRIC_CA_HOME
+            value: "/ca"
+          - name: FABRIC_CA_SERVER_TLS_ENABLED
+            value: "false"
+        volumeMounts:
+        - name: shop-ca-storage
+          mountPath: /ca/db
+          subPath: shop-ca-db
+      volumes:
+      - name: shop-ca-storage
+        persistentVolumeClaim:
+          claimName: org-ca-claim

@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: ingress
+spec:
+  tls:
+  - hosts:
+    - anthony-blockchain.us-south.containers.mybluemix.net
+    secretName: anthony-blockchain
+  backend:
+    serviceName: mobile-assets
+    servicePort: 80
+  rules:
+  - host: anthony-blockchain.us-south.containers.mybluemix.net
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: rabbitclient-api
+          servicePort: 3000
+      - path: /registerees
+        backend:
+          serviceName: registeree-api
+          servicePort: 80
+      - path: /gravatar
+        backend:
+          serviceName: gravatar
+          servicePort: 80
+      - path: /leaderboard
+        backend:
+          serviceName: leaderboard-api
+          servicePort: 80

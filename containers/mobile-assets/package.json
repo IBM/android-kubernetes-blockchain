@@ -1,0 +1,25 @@
+{
+  "name": "fitcoin-android",
+  "main": "app.js",
+  "description": "fitcoin-android",
+  "version": "1.0.0",
+  "private": false,
+  "engines": {
+    "node": "8.*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnthonyAmanse/fitcoin-android"
+  },
+  "dependencies": {
+    "assert": "^1.4.x",
+    "body-parser": "^1.17.x",
+    "cors": "^2.8.x",
+    "express": "^4.15.x",
+    "fs": "~0.0.1",
+    "mongoose": "^4.13.x",
+    "router": "^1.3.2"
+  },
+  "author": "Anthony Amanse",
+  "license": "Apache-2.0"
+}

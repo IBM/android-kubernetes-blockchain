@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fitcoin-backend-deployment
+  labels:
+    app: fitcoin-backend
+spec:
+  template:
+    metadata:
+      labels:
+        app: fitcoin-backend
+    spec:
+      containers:
+      - image: anthonyamanse/kubecon-backend:latest
+        imagePullPolicy: Always
+        name: fitcoin-backend
+        env:
+          - name: ORGID
+            value: "org.FitCoinOrg"
+          - name: DOCKER_SOCKET_PATH
+            value: "/host/var/run/docker.sock"
+          - name: DOCKER_CCENV_IMAGE
+            value: "hyperledger/fabric-ccenv:x86_64-1.0.6"
+          - name: SECRETSDIR
+            value: "/host/var/run/secrets"
+          - name: RABBITMQQUEUE
+            value: "user_queue"
+          - name: MESSAGEEXPIRY
+            value: "400"
+          - name: EVENTEMITTER
+            value: "false"
+          - name: SENDTOIOT
+            value: "false"
+          - name: SCALECLIENT
+            value: "1"
+        volumeMounts:
+          - name: dockersocket
+            mountPath: /host/var/run/docker.sock
+          - name: secret-volume
+            mountPath: /host/var/run/secrets
+      volumes:
+        - name: dockersocket
+          hostPath:
+            path: /var/run/docker.sock
+        - name: secret-volume
+          secret:
+            secretName: secret-files
+            items:
+              - key: config.json
+                path: config
+              - key: channel.tx
+                path: channel

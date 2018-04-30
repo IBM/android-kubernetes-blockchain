@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/shop_layout"
+    tools:context="com.amanse.anthony.fitcoinandroid.ShopFragment">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/contractButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_contract"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/productList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="50dp"
+        android:clipToPadding="false"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/balanceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="fitcoins balance"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/pendingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/contractButton"
+        android:fontFamily="sans-serif-condensed"
+        android:text="pending charges"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/fitcoinsBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/balanceLabel"
+        android:layout_alignStart="@+id/balanceLabel"
+        android:fontFamily="sans-serif"
+        android:text="-"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/pendingCharges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pendingLabel"
+        android:layout_alignEnd="@+id/pendingLabel"
+        android:fontFamily="sans-serif"
+        android:text="-"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

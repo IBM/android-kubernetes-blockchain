@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_technology"
+        android:icon="@drawable/ic_catalog"
+        android:title="@string/title_technology" />
+
+    <item
+        android:id="@+id/navigation_user"
+        android:icon="@drawable/ic_footprint"
+        android:title="@string/title_user" />
+
+    <item
+        android:id="@+id/navigation_shop"
+        android:icon="@drawable/ic_checkout_cart"
+        android:title="@string/title_shop" />
+    <item
+        android:id="@+id/navigation_leaderboards"
+        android:icon="@drawable/ic_bar_chart"
+        android:title="@string/title_leaderboards" />
+
+    <!--<item-->
+        <!--android:id="@+id/navigation_test"-->
+        <!--android:icon="@drawable/ic_notifications_black_24dp"-->
+        <!--android:title="Test" />-->
+
+</menu>

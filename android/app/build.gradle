@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            storeFile file('/Users/anthony/Library/Mobile Documents/com~apple~CloudDocs/kubecoin-release')
+            keyAlias 'KubecoinRelease'
+            keyPassword 'Ro9oster3'
+            storePassword 'Ro9oster3'
+        }
+    }
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.amanse.anthony.fitcoinandroid"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 5
+        versionName "1.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.google.android.gms:play-services-fitness:12.0.1'
+    implementation 'com.google.android.gms:play-services-auth:12.0.1'
+    implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.pixplicity.sharp:library:1.1.0'
+}
