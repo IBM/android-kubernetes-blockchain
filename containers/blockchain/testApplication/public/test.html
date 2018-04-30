@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Blockchain History of Events</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+      #div_style {
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/test.html">Blockchain User</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container" id="section_one">
+      <div id="div_style">
+        <table id="table_view" style="width: 100%" summary="Blocks of Transactions">
+          <thead>
+            <tr style="width: 100%">
+              <th>Attribute Name</th>
+              <th>Attribute Values</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style='width: 100%'>
+              <td >Type :</td>
+              <td><input style='width: 50%' id="type"/></td>
+            </tr>
+            <tr style='width: 100%'>
+              <td >User Id :</td>
+              <td><input style='width: 50%' id="userId"/></td>
+            </tr>
+            <tr style='width: 100%'>
+              <td >Function Name :</td>
+              <td><input style='width: 50%' id="fcn"/></td>
+            </tr>
+            <tr style='width: 100%'>
+              <td s="s">Args :</td>
+              <td><input style='width: 50%' id="argsValues"/></td>
+            </tr>
+            <tr style='width: 100%'>
+              <td>
+                <button id="request_server">Request Server</button>
+              </td>
+              <td ></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="div_style">
+        <table id="results_table" style="width: 100%" summary="Blocks of Transactions">
+          <thead>
+            <tr style="width: 100%">
+              <th>
+                <h1>Query Results</h1>
+              </th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </div>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="./scripts/message.js"></script>

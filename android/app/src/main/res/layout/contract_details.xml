@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="com.amanse.anthony.fitcoinandroid.ContractDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
+        android:paddingRight="20dp"
+        android:paddingEnd="20dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/contractId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="c123654"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif" />
+
+        <TextView
+            android:id="@+id/contractIdLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="contract id"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/productNameInContract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Bee Sticker"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif" />
+
+        <ImageView
+            android:id="@+id/productImageInContract"
+            android:transitionName="productImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/bee_sticker" />
+
+        <TextView
+            android:id="@+id/quantityInContract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif" />
+
+        <TextView
+            android:id="@+id/totalPriceInContract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="100"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif-condensed" />
+
+        <TextView
+            android:id="@+id/totalPriceLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="total coins"
+            android:textAlignment="center"
+            app:fontFamily="sans-serif-thin" />
+
+        <TextView
+            android:id="@+id/stateInContract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="pending"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif" />
+
+        <TextView
+            android:id="@+id/detailsContract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="details"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            app:fontFamily="sans-serif" />
+    </LinearLayout>
+</RelativeLayout>

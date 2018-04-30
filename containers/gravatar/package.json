@@ -1,0 +1,23 @@
+{
+  "name": "gravatar",
+  "main": "app.js",
+  "description": "gravatar",
+  "version": "1.0.0",
+  "private": false,
+  "engines": {
+    "node": "8.*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnthonyAmanse/fitcoin-android"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.x",
+    "express": "^4.15.x",
+    "minifig": "^1.4.0",
+    "node-random-name": "^1.0.1",
+    "svg2png": "^4.1.1"
+  },
+  "author": "Anthony Amanse",
+  "license": "Apache-2.0"
+}

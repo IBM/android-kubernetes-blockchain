@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fitcoin-statedb
+  labels:
+    app: fitcoin-statedb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5984
+  selector:
+    app: fitcoin-statedb
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fitcoin-statedb-deployment
+  labels:
+    app: fitcoin-statedb
+spec:
+  template:
+    metadata:
+      labels:
+        app: fitcoin-statedb
+    spec:
+      containers:
+      - image: ishangulhane/fabric-couchdb
+        imagePullPolicy: Always
+        name: fitcoin-statedb
+        ports:
+        - containerPort: 5984
+        volumeMounts:
+        - name: fitcoin-datastore-storage
+          mountPath: /opt/couchdb/data
+          subPath: fitcoin-statedb
+      volumes:
+      - name: fitcoin-datastore-storage
+        persistentVolumeClaim:
+          claimName: couchdb-claim

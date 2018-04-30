@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitclient-api
+  labels:
+    app: rabbitclient-api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+  selector:
+    app: rabbitclient-api
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: rabbitclient-api-deployment
+  labels:
+    app: rabbitclient-api
+spec:
+  template:
+    metadata:
+      labels:
+        app: rabbitclient-api
+    spec:
+      containers:
+      - image: anthonyamanse/kubecon-rabbitclient-api:latest
+        imagePullPolicy: Always
+        name: rabbitclient-api
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SECRETSDIR
+            value: "/host/var/run/secrets"
+          - name: PORT
+            value: "3000"
+        volumeMounts:
+          - name: secret-volume
+            mountPath: /host/var/run/secrets
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: secret-files
+            items:
+              - key: config.json
+                path: config
+              - key: channel.tx
+                path: channel

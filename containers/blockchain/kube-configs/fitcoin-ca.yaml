@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fitcoin-ca
+  labels:
+    app: fitcoin-ca
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7054
+  selector:
+    app: fitcoin-ca
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fitcoin-ca-deployment
+  labels:
+    app: fitcoin-ca
+spec:
+  template:
+    metadata:
+      labels:
+        app: fitcoin-ca
+    spec:
+      containers:
+      - image: anthonyamanse/kubecon-fitcoin-ca:latest
+        imagePullPolicy: Always
+        command: ["fabric-ca-server"]
+        args: ["start","--db.datasource","db/fitcoin-fabric-ca-server.db"]
+        name: fitcoin-ca
+        ports:
+        - containerPort: 7054
+        env:
+          - name: FABRIC_CA_HOME
+            value: "/ca"
+          - name: FABRIC_CA_SERVER_TLS_ENABLED
+            value: "false"
+        volumeMounts:
+        - name: fitcoin-ca-storage
+          mountPath: /ca/db
+          subPath: fitcoin-ca-db
+      volumes:
+      - name: fitcoin-ca-storage
+        persistentVolumeClaim:
+          claimName: org-ca-claim

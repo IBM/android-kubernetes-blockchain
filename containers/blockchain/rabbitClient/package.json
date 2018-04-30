@@ -1,0 +1,27 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "API for for rabbit client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "amqplib": "^0.5.2",
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "events": "^1.1.1",
+    "express": "^4.16.2",
+    "fs": "0.0.1-security",
+    "ioredis": "^3.2.2",
+    "path": "^0.12.7",
+    "redis-clustr": "^1.5.2",
+    "url": "^0.11.0",
+    "uuid": "^3.2.1"
+  }
+}

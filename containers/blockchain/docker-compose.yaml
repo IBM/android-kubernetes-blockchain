@@ -1,0 +1,430 @@
+version: "3.1"
+
+services:
+  ca-datastore:
+    container_name: ca-datastore
+#    image: hyperledger/fabric-couchdb:x86_64-1.0.6
+    image: ishangulhane/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5984:5984
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  fitcoin-statedb:
+    container_name: fitcoin-statedb
+#    image: hyperledger/fabric-couchdb:x86_64-1.0.6
+    image: ishangulhane/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 8984:5984
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  shop-statedb:
+    container_name: shop-statedb
+#    image: hyperledger/fabric-couchdb:x86_64-1.0.6
+    image: ishangulhane/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 9984:5984
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitmq1:
+    container_name: rabbitmq1
+    image: rabbitmq:3-management
+    hostname: rabbitmq1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=6ad0a617cb89413daa0a
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitmq2:
+    container_name: rabbitmq2
+    image: rabbitmq:3-management
+    hostname: rabbitmq2
+    depends_on:
+      - rabbitmq1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=6ad0a617cb89413daa0a
+    volumes:
+      - ./rabbitCluster/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+    entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitmq3:
+    container_name: rabbitmq3
+    image: rabbitmq:3-management
+    hostname: rabbitmq3
+    depends_on:
+      - rabbitmq1
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=6ad0a617cb89413daa0a
+    volumes:
+      - ./rabbitCluster/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+    entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: haproxy:1.7
+    volumes:
+      - ./rabbitServerClusterHAProxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - rabbitmq1
+      - rabbitmq2
+      - rabbitmq3
+    ports:
+      - 15672:15672
+      - 5672:5672
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  redis-server:
+     hostname: redis-server
+     image: redis-server
+     ports:
+       - '7000-7005:7000-7005'
+     logging:
+       driver: "json-file"
+       options:
+         max-size: "1m"
+         max-file: "10"
+
+  shop-ca:
+    container_name: shop-ca
+    image: shop-ca
+    environment:
+      - FABRIC_CA_HOME=/ca
+    command: fabric-ca-server start
+    ports:
+      - 7054:7054
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  fitcoin-ca:
+    container_name: fitcoin-ca
+    image: fitcoin-ca
+    environment:
+      - FABRIC_CA_HOME=/ca
+    command: fabric-ca-server start
+    ports:
+      - 8054:7054
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  orderer0:
+    container_name: orderer0
+    image: orderer-peer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/orderer/crypto/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/orderer/crypto/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/orderer/crypto/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/orderer/crypto/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/orderer/crypto/tls/ca.crt]
+    working_dir: /orderer
+    command: orderer
+    ports:
+    - 7050:7050
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  shop-peer:
+    container_name: shop-peer
+    image: shop-peer
+    environment:
+      - CORE_PEER_ID=shop-peer
+      - CORE_PEER_ADDRESS=shop-peer:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=shop-peer:7051
+      - CORE_PEER_LOCALMSPID=ShopOrgMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=shop-statedb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fitcoin_default
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_ENDORSER_ENABLED=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/peer/crypto/msp
+      - CORE_PEER_TLS_CERT_FILE=/peer/crypto/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/peer/crypto/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/peer/crypto/tls/ca.crt
+    working_dir: /peer
+    command: peer node start
+    volumes:
+    - /var/run/:/host/var/run/
+    ports:
+    - 7051:7051
+    - 7053:7053
+    depends_on:
+    - orderer0
+    - shop-ca
+    - ca-datastore
+    - shop-statedb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  fitcoin-peer:
+    container_name: fitcoin-peer
+    image: fitcoin-peer
+    environment:
+      - CORE_PEER_ID=fitcoin-peer
+      - CORE_PEER_ADDRESS=fitcoin-peer:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=fitcoin-peer:7051
+      - CORE_PEER_LOCALMSPID=FitCoinOrgMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=fitcoin-statedb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fitcoin_default
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_ENDORSER_ENABLED=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_MSPCONFIGPATH=/peer/crypto/msp
+      - CORE_PEER_TLS_CERT_FILE=/peer/crypto/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/peer/crypto/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/peer/crypto/tls/ca.crt
+    working_dir: /peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+    ports:
+      - 8051:7051
+      - 8053:7053
+    depends_on:
+      - orderer0
+      - fitcoin-ca
+      - shop-peer
+      - ca-datastore
+      - fitcoin-statedb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  blockchain-setup :
+    container_name: blockchain-setup
+    image: blockchain-setup
+    environment:
+    - DOCKER_SOCKET_PATH=/host/var/run/docker.sock
+    - DOCKER_CCENV_IMAGE=hyperledger/fabric-ccenv:x86_64-1.0.6
+    - SECRETSDIR=/run/secrets
+    volumes:
+    - /var/run/:/host/var/run/
+    depends_on:
+    - orderer0
+    - shop-ca
+    - shop-peer
+    - fitcoin-ca
+    - fitcoin-peer
+    - ca-datastore
+    - shop-statedb
+    - fitcoin-statedb
+    secrets:
+      - config
+      - channel
+
+  shop-backend :
+    #container_name: shop-backend
+    image: backend
+    environment:
+    - ORGID=org.ShopOrg
+    - DOCKER_SOCKET_PATH=/host/var/run/docker.sock
+    - DOCKER_CCENV_IMAGE=hyperledger/fabric-ccenv:x86_64-1.0.6
+    - SECRETSDIR=/run/secrets
+    - RABBITMQQUEUE=seller_queue
+    - SOCKETPORT=3030
+    - MESSAGEEXPIRY=400
+    - EVENTEMITTER=true
+    - SENDTOIOT=false
+    - SCALECLIENT=1
+    ports:
+    - 3030:3030
+    volumes:
+    - /var/run/:/host/var/run/
+    depends_on:
+    - blockchain-setup
+    - rabbitmq
+    - redis-server
+    secrets:
+      - config
+      - channel
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  fitcoin-backend :
+    #container_name: fitcoin-backend
+    image: backend
+    environment:
+    - ORGID=org.FitCoinOrg
+    - DOCKER_SOCKET_PATH=/host/var/run/docker.sock
+    - DOCKER_CCENV_IMAGE=hyperledger/fabric-ccenv:x86_64-1.0.6
+    - SECRETSDIR=/run/secrets
+    - RABBITMQQUEUE=user_queue
+    - MESSAGEEXPIRY=400
+    - SENDTOIOT=false
+    - SCALECLIENT=3
+    volumes:
+    - /var/run/:/host/var/run/
+    depends_on:
+    - blockchain-setup
+    - rabbitmq
+    - redis-server
+    secrets:
+      - config
+      - channel
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitclient1 :
+    container_name: rabbitclient1
+    image: rabbit-client
+    hostname: rabbitclient1
+    environment:
+    - SECRETSDIR=/run/secrets
+    - PORT=3000
+    ports:
+    - 3001:3000
+    depends_on:
+    - redis-server
+    - rabbitmq
+    secrets:
+      - config
+      - channel
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitclient2 :
+    container_name: rabbitclient2
+    image: rabbit-client
+    hostname: rabbitclient2
+    environment:
+    - SECRETSDIR=/run/secrets
+    - PORT=3000
+    ports:
+    - 3002:3000
+    depends_on:
+    - redis-server
+    - rabbitmq
+    secrets:
+      - config
+      - channel
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitclient3 :
+    container_name: rabbitclient3
+    image: rabbit-client
+    hostname: rabbitclient3
+    environment:
+    - SECRETSDIR=/run/secrets
+    - PORT=3000
+    ports:
+    - 3003:3000
+    depends_on:
+    - redis-server
+    - rabbitmq
+    secrets:
+      - config
+      - channel
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+  rabbitclient:
+    container_name: rabbitclient
+    hostname: rabbitclient
+    image: haproxy:1.7
+    volumes:
+      - ./rabbitClientHAProxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - rabbitclient1
+      - rabbitclient2
+      - rabbitclient3
+    ports:
+      - 3000:3000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+
+secrets:
+  config:
+    file: ./configuration/config.json
+  channel:
+    file: ./configuration/channel.tx

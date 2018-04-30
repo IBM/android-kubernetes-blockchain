@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Kubecoin</string>
+    <string name="title_technology">Tech</string>
+    <string name="title_user">User</string>
+    <string name="title_shop">Shop</string>
+    <string name="title_leaderboards">Standings</string>
+    <string name="title_privacy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notEnrolled">You were not enrolled in our Blockchain Network</string>
+</resources>

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: blockchain-setup-pod
+  labels:
+    app: blockchain-setup
+spec:
+  restartPolicy: "Never"
+  containers:
+  - image: hyperledger/fabric-tools:x86_64-1.0.4
+    imagePullPolicy: Always
+    command: ["sleep"]
+    args: ["100m"]
+    name: blockchain-setup
+    securityContext:
+      privileged: true

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-statedb
+  labels:
+    app: shop-statedb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5984
+  selector:
+    app: shop-statedb
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: shop-statedb-deployment
+  labels:
+    app: shop-statedb
+spec:
+  template:
+    metadata:
+      labels:
+        app: shop-statedb
+    spec:
+      containers:
+      - image: ishangulhane/fabric-couchdb
+        imagePullPolicy: Always
+        name: shop-statedb
+        ports:
+        - containerPort: 5984
+        volumeMounts:
+        - name: shop-datastore-storage
+          mountPath: /opt/couchdb/data
+          subPath: shop-statedb
+      volumes:
+      - name: shop-datastore-storage
+        persistentVolumeClaim:
+          claimName: couchdb-claim

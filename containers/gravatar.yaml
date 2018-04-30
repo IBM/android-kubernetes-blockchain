@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gravatar
+  labels:
+    app: gravatar
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+  type: ClusterIP
+  selector:
+    app: gravatar
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gravatar-deployment
+  labels:
+    app: gravatar
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gravatar
+    spec:
+      containers:
+        - image: anthonyamanse/gravatar:1.0
+          imagePullPolicy: Always
+          name: gravatar
+          ports:
+            - containerPort: 8080

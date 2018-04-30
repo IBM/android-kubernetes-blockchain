@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/quantityLayout"
+    tools:context="com.amanse.anthony.fitcoinandroid.QuantitySelection">
+
+    <TextView
+        android:id="@+id/howMany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="how many?"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif" />
+
+
+    <ImageView
+        android:id="@+id/productImageInQuantity"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/howMany"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/bee_sticker"
+        android:transitionName="productImage" />
+
+    <TextView
+        android:id="@+id/productNameInQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/productImageInQuantity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="product name"
+        android:transitionName="productName"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif" />
+
+    <Button
+        android:id="@+id/claimButton"
+        android:layout_width="150dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#FFF"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:text="claim"
+        android:textSize="18sp" />
+    <LinearLayout
+        android:id="@+id/stepper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/productNameInQuantity"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="-"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="18sp"/>
+
+
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="+"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/totalCoinsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/claimButton"
+        android:layout_centerHorizontal="true"
+        android:text="total coins"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-condensed" />
+
+    <TextView
+        android:id="@+id/totalPriceInQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/totalCoinsLabel"
+        android:layout_centerHorizontal="true"
+        android:text="10"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-condensed" />
+
+    <TextView
+        android:id="@+id/quantityTextInQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stepper"
+        android:layout_centerHorizontal="true"
+        android:text="1"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

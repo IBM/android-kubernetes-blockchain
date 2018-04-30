@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fitcoin-peer
+  labels:
+    app: fitcoin-peer
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7051
+      name: fitcoin-port-1
+    - port: 7053
+      name: fitcoin-port-2
+  selector:
+    app: fitcoin-peer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: fitcoin-peer-deployment
+  labels:
+    app: fitcoin-peer
+spec:
+  template:
+    metadata:
+      labels:
+        app: fitcoin-peer
+    spec:
+      containers:
+      - image: anthonyamanse/kubecon-fitcoin-peer:latest
+        imagePullPolicy: Always
+        workingDir: /peer
+        command: ["peer"]
+        args: ["node", "start", "--peer-defaultchain=false"]
+        name: fitcoin-peer
+        ports:
+        - containerPort: 7051
+        - containerPort: 7053
+        env:
+          - name: CORE_PEER_ID
+            value: "fitcoin-peer"
+          - name: CORE_PEER_ADDRESS
+            value: "fitcoin-peer:7051"
+          - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+            value: "fitcoin-peer:7051"
+          - name: CORE_PEER_LOCALMSPID
+            value: "FitCoinOrgMSP"
+          - name: CORE_LEDGER_STATE_STATEDATABASE
+            value: "CouchDB"
+          - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
+            value: "fitcoin-statedb:5984"
+          - name: CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME
+            value: ""
+          - name: CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+            value: ""
+          - name: CORE_VM_ENDPOINT
+            value: "unix:///host/var/run/docker.sock"
+          - name: CORE_LOGGING_LEVEL
+            value: "DEBUG"
+          - name: CORE_PEER_TLS_ENABLED
+            value: "false"
+          - name: CORE_PEER_ENDORSER_ENABLED
+            value: "true"
+          - name: CORE_PEER_GOSSIP_USELEADERELECTION
+            value: "true"
+          - name: CORE_PEER_GOSSIP_ORGLEADER
+            value: "false"
+          - name: CORE_PEER_PROFILE_ENABLED
+            value: "true"
+          - name: CORE_PEER_MSPCONFIGPATH
+            value: "/peer/crypto/msp"
+          # - name: CORE_PEER_TLS_CERT_FILE
+          #   value: "/peer/crypto/tls/server.crt"
+          # - name: CORE_PEER_TLS_KEY_FILE
+          #   value: "/peer/crypto/tls/server.key"
+          # - name: CORE_PEER_TLS_ROOTCERT_FILE
+          #   value: "/peer/crypto/tls/ca.crt"
+          - name: CORE_PEER_ADDRESSAUTODETECT
+            value: "true"
+          - name: CORE_PEER_NETWORKID
+            value: "nid1"
+          - name: CORE_PEER_LISTENADDRESS
+            value: 0.0.0.0:7051
+          - name: CORE_PEER_EVENTS_ADDRESS
+            value: 0.0.0.0:7053
+          - name: GODEBUG
+            value: "netdns=go"
+          - name: CORE_VM_DOCKER_ATTACHSTDOUT
+            value: "true"
+        volumeMounts:
+          - name: dockersocket
+            mountPath: /host/var/run/docker.sock
+          - name: fitcoin-peer-storage
+            mountPath: /var/hyperledger/production
+            subPath: fitcoin-peer
+      volumes:
+        - name: dockersocket
+          hostPath:
+            path: /var/run/docker.sock
+        - name: fitcoin-peer-storage
+          persistentVolumeClaim:
+            claimName: peer-claim

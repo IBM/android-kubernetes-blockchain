@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-datastore
+  labels:
+    app: ca-datastore
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5984
+  selector:
+    app: ca-datastore
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ca-datastore-deployment
+  labels:
+    app: ca-datastore
+spec:
+  template:
+    metadata:
+      labels:
+        app: ca-datastore
+    spec:
+      containers:
+      - image: ishangulhane/fabric-couchdb
+        imagePullPolicy: Always
+        name: ca-datastore
+        ports:
+        - containerPort: 5984
+        volumeMounts:
+        - name: ca-datastore-storage
+          mountPath: /opt/couchdb/data
+          subPath: ca-datastore
+      volumes:
+      - name: ca-datastore-storage
+        persistentVolumeClaim:
+          claimName: couchdb-claim
