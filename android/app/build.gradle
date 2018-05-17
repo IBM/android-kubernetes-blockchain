@@ -5,8 +5,8 @@ android {
         config {
             storeFile file('/Users/anthony/Library/Mobile Documents/com~apple~CloudDocs/kubecoin-release')
             keyAlias 'KubecoinRelease'
-            keyPassword 'Ro9oster3'
-            storePassword 'Ro9oster3'
+            keyPassword 'qwerty'
+            storePassword 'qwerty'
         }
     }
     compileSdkVersion 27

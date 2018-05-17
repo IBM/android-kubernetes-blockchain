@@ -32,7 +32,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
     private Context context;
     private ArrayList<ContractModel> contractModels;
     private static String TAG = "FITNESS_CONTRACT_LIST";
-    private static String BLOCKCHAIN_URL  = "https://anthony-blockchain.us-south.containers.mybluemix.net";
+    private static String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
 
     RequestQueue queue;
 
@@ -154,7 +154,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
         try {
             JSONObject params = new JSONObject("{\"type\":\"invoke\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + contractModel.getUserId() + "\", \"fcn\":\"transactPurchase\", \"args\":[" + contractModel.getUserId() + "," + contractModel.getContractId() + ",\"declined\"]}}");
             Log.d(TAG, params.toString());
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

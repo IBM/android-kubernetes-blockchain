@@ -37,7 +37,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "FITNESS_API";
-    private static final String BLOCKCHAIN_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
+    private static final String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
     public RequestQueue queue;
     Gson gson = new Gson();
     private Fragment currentTab;
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     public void registerUser() {
         try {
             JSONObject params = new JSONObject("{\"type\":\"enroll\",\"queue\":\"user_queue\",\"params\":{}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         // Limit to 60 attempts
         if (attemptNumber < 60) {
             if (initialRequestType.equals("enrollment")) {
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             JSONObject params = new JSONObject("{\"registereeId\":" + userId + ",\"steps\":0,\"calories\":0,\"device\":\"android\"}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/registerees/add" , params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/registerees/add" , params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

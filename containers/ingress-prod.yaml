@@ -24,10 +24,6 @@ spec:
         backend:
           serviceName: registeree-api
           servicePort: 80
-      - path: /gravatar
-        backend:
-          serviceName: gravatar
-          servicePort: 80
       - path: /leaderboard
         backend:
           serviceName: leaderboard-api
