@@ -47,7 +47,7 @@ public class ShopFragment extends Fragment {
     TextView fitcoinsBalance, pendingCharges;
 
     private static final String TAG = "FITNESS_SHOP_FRAG";
-    private static final String BLOCKCHAIN_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
+    private static final String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
     public String userId;
     public boolean isEnrolled;
 
@@ -147,7 +147,7 @@ public class ShopFragment extends Fragment {
     public void getStateOfUser(String userId, final int failedAttempts) {
         try {
             JSONObject params = new JSONObject("{\"type\":\"query\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\", \"fcn\":\"getState\", \"args\":[" + userId + "]}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -177,7 +177,7 @@ public class ShopFragment extends Fragment {
     public void getAllUserContracts(String userId, final int failedAttempts) {
         try {
             JSONObject params = new JSONObject("{\"type\":\"query\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\", \"fcn\":\"getAllUserContracts\", \"args\":[" + userId + "]}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -208,7 +208,7 @@ public class ShopFragment extends Fragment {
     public void getProductsForSale(String userId, final int failedAttempts) {
         try {
             JSONObject params = new JSONObject("{\"type\":\"query\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\", \"fcn\":\"getProductsForSale\", \"args\":[]}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -243,7 +243,7 @@ public class ShopFragment extends Fragment {
             if (initialRequestType.equals("getStateOfUser")) {
 
                 // GET STATE OF USER
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -294,7 +294,7 @@ public class ShopFragment extends Fragment {
             } else if (initialRequestType.equals("getProductsForSale")) {
 
                 // GET PRODUCTS FOR SALE
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -346,7 +346,7 @@ public class ShopFragment extends Fragment {
             } else if (initialRequestType.equals("getAllUserContracts")) {
 
                 // GET ALL USER CONTRACTS
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {

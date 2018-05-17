@@ -32,7 +32,7 @@ import org.json.JSONObject;
 public class QuantitySelection extends AppCompatActivity {
 
     private static final String TAG = "FITNESS_QUANTITY";
-    private static final String BLOCKCHAIN_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
+    private static final String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
 
     ImageView productImage;
     TextView productName;
@@ -178,7 +178,7 @@ public class QuantitySelection extends AppCompatActivity {
         try {
             JSONObject params = new JSONObject("{\"type\":\"invoke\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\", \"fcn\":\"makePurchase\", \"args\":[" + userId + "," + product.getSellerId() + "," + product.getProductId() + ",\"" + quantity.getText() + "\"]}}");
             Log.d(TAG, params.toString());
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -206,7 +206,7 @@ public class QuantitySelection extends AppCompatActivity {
         if (attemptNumber < 60) {
             final Activity activity = this;
             // GET THE TRANSACTION RESULT
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

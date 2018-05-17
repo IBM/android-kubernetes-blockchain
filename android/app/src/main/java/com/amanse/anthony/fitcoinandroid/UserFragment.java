@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 public class UserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FITNESS_API_USER_FRAG";
-    private static final String BLOCKCHAIN_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
+    private static final String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.net";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private static final int FITCOINS_STEPS_CONVERSION = 100;
 
@@ -423,7 +423,7 @@ public class UserFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void getStateOfUser(String userId, final int failedAttempts) {
         try {
             JSONObject params = new JSONObject("{\"type\":\"query\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\", \"fcn\":\"getState\", \"args\":[" + userId + "]}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -456,7 +456,7 @@ public class UserFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         // Limit to 60 attempts
         if (attemptNumber < 60) {
             if (initialRequestType.equals("getStateOfUser")) {
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BLOCKCHAIN_URL + "/api/results/" + resultId, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, BACKEND_URL + "/api/results/" + resultId, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -515,7 +515,7 @@ public class UserFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void sendStepsToFitchain(final String userId, final int numberOfStepsToSend) {
         try {
             JSONObject params = new JSONObject("{\"type\":\"invoke\",\"queue\":\"user_queue\",\"params\":{\"userId\":\"" + userId + "\",\"fcn\":\"generateFitcoins\",\"args\":[" + userId + ",\"" + String.valueOf(numberOfStepsToSend)+ "\"]}}");
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BLOCKCHAIN_URL + "/api/execute", params,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BACKEND_URL + "/api/execute", params,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -553,7 +553,7 @@ public class UserFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public void sendStepsToMongo(String userId, int numberOfStepsToSend) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, BLOCKCHAIN_URL + "/registerees/update/" + userId + "/steps/" + String.valueOf(numberOfStepsToSend),
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, BACKEND_URL + "/registerees/update/" + userId + "/steps/" + String.valueOf(numberOfStepsToSend),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
