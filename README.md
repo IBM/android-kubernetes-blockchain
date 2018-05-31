@@ -1,6 +1,6 @@
 # Create an Android app with Blockchain Integration
 
-In this code pattern, we will create an Android app that tracks the user steps with Blockchain capabalities using Kubernetes. The users are registered to the Blockchain network anonymously and gets rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
+In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabalities using Kubernetes. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
 
 This code pattern is for developers who wish to provide data anonymity and security to their users. Their users will be more confident to use their app if it gives them more control over their privacy. The developers can also extend the pattern to use the backend from different platforms.
 
@@ -32,7 +32,7 @@ When you have completed this code pattern, you will understand how to:
 
 ## Summary
 
-The first time the user opens the app, he gets anonymously assigned a unique user ID in the Blockchain network. They also get assigned a random avatar and name which will be stored in MongoDB. This data will be used for the Leaderboard. The 3 microservices (Leaderboard, Mobile Assets, Registration) outside of the blockchain network are Node.js web apps to get data from the MonoDB. As users walk around, their steps will be sent to the blockchain network and they will be rewarded with "Kubecoins". These coins can be used in the blockchain network to trade assets. The assets we have are some swags(stickers, bandanas, etc.) for the KubeCon conference. Users can see and claim them using the app. Once they claim a product, they'll get a Contract ID. They'll show the Contract ID to the seller (us) and we will complete and verify the transaction in our dashboard and give them the swag. The users can also check how they are doing with their steps compared to other people in the Standings view in the mobile app or in the Kubecoin dashboard.
+The first time the user opens the app, he gets anonymously assigned a unique user ID in the Blockchain network. They also get assigned a random avatar and name which will be stored in MongoDB. This data will be used for the Leaderboard. The 3 microservices (Leaderboard, Mobile Assets, Registration) outside of the blockchain network are Node.js web apps to get data from the MonoDB. As users walk around, their steps will be sent to the blockchain network and they will be rewarded with "Kubecoins". These coins can be used in the blockchain network to trade assets. The assets we have are some swag (stickers, bandanas, etc.) for the KubeCon conference. Users can see and claim them using the app. Once they claim a product, they'll get a Contract ID. They'll show the Contract ID to the seller (us) and we will complete and verify the transaction in our dashboard and give them the swag. The users can also check how they are doing with their steps compared to other people in the Standings view in the mobile app or in the Kubecoin dashboard.
 
 ## Included Components
 
@@ -77,13 +77,13 @@ Create the following services:
 
 ### 3. Configure the Blockchain Network
 
-* Get your Compose for RabbitMQ and Redis credentials in your IBM Cloud Dashboard
+* Get your Compose for RabbitMQ and Redis credentials from the main page of each respective service in your IBM Cloud Dashboard
 
 ![](docs/rabbit-credentials.png)
 
 ![](docs/redis-credentials.png)
 
-* In `containers/blockchain/configuration/config.js`, modify the values for `rabbitmq` and `redis` with your own credentials.
+* In `containers/blockchain/configuration/config.js`, modify the values for `rabbitmq` and `redis` (starting on line 12) with your own credentials.
 
 ```
 chaincodePath: 'bcfit',
@@ -91,7 +91,7 @@ rabbitmq: 'amqps://admin:QWERTY@portal-ssl334-23.bmix-dal-yp-abc10717-6f73-4f63-
 redisUrl: 'redis://admin:QWERTY@sl-us-south-1-portal.23.dblayer.com:38916',
 ```
 
-* Generate certificates and for the blockchain network
+* Generate certificates for the blockchain network
 
 ```
 $ cd containers/blockchain
