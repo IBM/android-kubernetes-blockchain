@@ -50,13 +50,15 @@ The first time the user opens the app, he gets anonymously assigned a unique use
 * [Serverless](https://www.ibm.com/cloud/functions): An event-action platform that allows you to execute code in response to an event.
 * [Databases](https://en.wikipedia.org/wiki/IBM_Information_Management_System#.22Full_Function.22_databases): Repository for storing and managing collections of data.
 
-# Prerequisite
+# Prerequisites
 
-Create a Kubernetes cluster with either [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube) for local testing, or with [IBM Bluemix Container Service](https://console.bluemix.net/docs/containers/cs_cli_install.html#cs_cli_install) to deploy in cloud. The code here is regularly tested against [Kubernetes Cluster from Bluemix Container Service](https://console.ng.bluemix.net/docs/containers/cs_ov.html#cs_ov) using Travis.
+* Create a Kubernetes cluster with either [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube) for local testing, or with [IBM Bluemix Container Service](https://console.bluemix.net/docs/containers/cs_cli_install.html#cs_cli_install) to deploy in cloud. The code here is regularly tested against [Kubernetes Cluster from Bluemix Container Service](https://console.ng.bluemix.net/docs/containers/cs_ov.html#cs_ov) using Travis.
 
-Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferrerd operating system. You would need docker if you want to build and use your own images.
+* Install [Node.js](https://nodejs.org/)
 
-Install [Android Studio](https://developer.android.com/studio/).
+* Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferrerd operating system. You would need docker if you want to build and use your own images.
+
+* Install [Android Studio](https://developer.android.com/studio/).
 
 # Steps
 
@@ -96,6 +98,9 @@ redisUrl: 'redis://admin:QWERTY@sl-us-south-1-portal.23.dblayer.com:38916',
 ```
 $ cd containers/blockchain
 $ export FABRIC_CFG_PATH=$(pwd)
+```
+> The following script assumes you are running OSX.  If you are using Linux, you will need to `cp ubuntu/* .` before continuing
+```
 $ ./generate-certs.sh
 ```
 
