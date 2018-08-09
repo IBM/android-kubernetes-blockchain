@@ -6,6 +6,7 @@ This document goes through all the functions in the chaincode. All chaincode fun
 * userID - id to call the function
 * fcn - function name
 * args - array of string
+* queue - user_queue(FitCoinOrg) or seller_queue (ShopOrg)
 
 
 ### Create user and seller
@@ -14,6 +15,7 @@ This document goes through all the functions in the chaincode. All chaincode fun
 ```
 var input = {
   type: enroll,
+  queue: queue,
   params: {}
 }
 ```
@@ -23,6 +25,7 @@ var input = {
 ```
 var input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: memberID,
     fcn: createMember
@@ -37,6 +40,7 @@ var input = {
 ```
 var input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: memberID
     fcn: createMember
@@ -55,10 +59,11 @@ The invoke calls from user's iOS app which update the blockchain state.
 ```
 input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: userId
     fcn: generateFitcoins
-    args: userId, totalSteps
+    args: [userId, totalSteps]
   }
 }
 ```
@@ -69,10 +74,11 @@ input = {
 ```
 input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: userId,
     fcn: makePurchase
-    args: userId, sellerId, productId, quantity
+    args: [userId, sellerId, productId, quantity]
   }
 }
 ```
@@ -91,10 +97,11 @@ The invoke calls from seller dashboard which update the blockchain state.
 ```
 var input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: sellerID
     fcn: createProduct
-    args: sellerID, productID, productName, productCount productPrice
+    args: [sellerID, productID, productName, productCount productPrice]
   }
 }
 ```
@@ -108,10 +115,11 @@ var input = {
 ```
 var input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: sellerID
     fcn: updateProduct
-    args: sellerID, productID, productName, productCount productPrice
+    args: [sellerID, productID, productName, productCount productPrice]
   }
 }
 ```
@@ -129,10 +137,11 @@ User or seller can call transact purchase.  Only seller can complete the transac
 ```
 var input = {
   type: invoke,
+  queue: queue,
   params: {
     userId: memberID
     fcn: transactPurchase
-    args: memberID, contractID, newState(complete or declined)
+    args: [memberID, contractID, newState(complete or declined)]
   }
 }
 ```
@@ -151,10 +160,11 @@ Gets state with userId, sellerID or contractID as args
 ```
 var input = {
   type: query,
+  queue: queue,
   params: {
     userId: userID
     fcn: getState
-    args: id userId, sellerID or contractID
+    args: [id] **userId, sellerID or contractID
   }
 }
 ```
@@ -165,10 +175,11 @@ Gets array of products available with sellerID
 ```
 var input = {
   type: query,
+  queue: queue,
   params: {
     userId: userID
     fcn: getProductsForSale
-    args: (none)
+    args: [] (none)
   }
 }
 ```
@@ -178,6 +189,7 @@ Get user's contracts, for all the purchases made
 ```
 var input = {
   type: query,
+  queue: queue,
   params: {
     userId: userID,
     fcn: getAllContracts
@@ -192,10 +204,11 @@ Gets all contracts
 ```
 var input = {
   type: query,
+  queue: queue,
   params: {
     userId: userID,
     fcn: getAllContracts
-    args: (none)
+    args: [] (none)
   }
 }
 ```
