@@ -9,10 +9,10 @@ const config = {
   chaincodeId: 'bcfit',
   chaincodeVersion: '1',
   chaincodePath: 'bcfit',
-  rabbitmq: 'amqps://admin:MNXUKYIIIISAJZBC@portal-ssl334-23.bmix-dal-yp-abc10717-6f73-4f63-b039-a1d2485c1566.devadvo-us-ibm-com.composedb.com:38919/bmix-dal-yp-abc10717-6f73-4f63-b039-a1d2485c1566',
+  rabbitmq: 'YOUR_RABBITMQ_URL',
   // redisHost: 'redis-server',
   // redisPort: 7000,
-  redisUrl: 'redis://admin:WWGGSGRVEJGODGPX@sl-us-south-1-portal.23.dblayer.com:38916',
+  redisUrl: 'YOUR_REDIS_URL',
   iotDashUrl: 'https://think-iot-processor.mybluemix.net/steps?message=',
   orderer: {
     hostname: 'orderer0',

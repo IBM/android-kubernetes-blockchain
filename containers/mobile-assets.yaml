@@ -29,19 +29,11 @@ spec:
         app: mobile-assets
     spec:
       containers:
-        - image: anthonyamanse/mobile-assets:1.0
+        - image: anthonyamanse/mobile-assets:latest
           imagePullPolicy: Always
           name: mobile-assets
           env:
             - name: MONGODB_URL
               value: ''
-          volumeMounts:
-            - name: mongodb-cert
-              mountPath: "/etc/ssl"
-              readOnly: true
           ports:
             - containerPort: 8080
-      volumes:
-        - name: mongodb-cert
-          secret:
-            secretName: mongodb-cert-secret

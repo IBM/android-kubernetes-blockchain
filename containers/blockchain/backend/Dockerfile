@@ -1,4 +1,4 @@
-FROM docker.io/library/node:6.11.3
+FROM docker.io/library/node:8.11.4
 
 
 RUN mkdir /app
