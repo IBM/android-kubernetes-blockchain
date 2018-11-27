@@ -29,19 +29,11 @@ spec:
         app: leaderboard-api
     spec:
       containers:
-        - image: anthonyamanse/leaderboard:2.0
+        - image: anthonyamanse/leaderboard:latest
           imagePullPolicy: Always
           name: leaderboard-api
           env:
             - name: MONGODB_URL
               value: ''
-          volumeMounts:
-            - name: mongodb-cert
-              mountPath: "/etc/ssl"
-              readOnly: true
           ports:
             - containerPort: 8080
-      volumes:
-        - name: mongodb-cert
-          secret:
-            secretName: mongodb-cert-secret
