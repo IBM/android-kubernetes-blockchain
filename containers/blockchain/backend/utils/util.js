@@ -146,15 +146,6 @@ export async function createConnection(client, clientNo) {
               messageId: msg.properties.messageId,
               content_type: 'application/json'
             });*/
-          var options = {
-              method: 'GET',
-              uri: config.iotDashUrl + data
-          }
-          request(options, function (error, response, body) {
-              console.log('error:', error); // null if no error occurs, else print error
-              console.log('statusCode:', response && response.statusCode); // print the response status code
-              console.log('body:', body); // print the output body on console
-           });
             setValue(msg.properties.correlationId, data);
             ch.ack(msg);
           };

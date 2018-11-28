@@ -24,7 +24,7 @@ spec:
         app: shop-ca
     spec:
       containers:
-      - image: anthonyamanse/kubecon-shop-ca:latest
+      - image: DOCKERHUB_USERNAME/codepattern-shop-ca:latest
         imagePullPolicy: Always
         command: ["fabric-ca-server"]
         args: ["start","--db.datasource","db/shop-fabric-ca-server.db"]

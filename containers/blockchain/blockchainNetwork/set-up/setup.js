@@ -65,15 +65,17 @@ function getAdminOrgs() {
     // Pull chaincode environment base image
     try {
       await getAdminOrgs();
-      const socketPath = process.env.DOCKER_SOCKET_PATH || (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
+      const dockerHost = process.env.DOCKER_HOST || (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
       const ccenvImage = process.env.DOCKER_CCENV_IMAGE || 'hyperledger/fabric-ccenv:x86_64-1.0.2';
       const listOpts = {
-        socketPath,
+        hostname: dockerHost,
+        port: 2375,
         method: 'GET',
         path: '/images/json'
       };
       const pullOpts = {
-        socketPath,
+        hostname: dockerHost,
+        port: 2375,
         method: 'POST',
         path: url.format({
           pathname: '/images/create',

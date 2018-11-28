@@ -10,10 +10,7 @@ const config = {
   chaincodeVersion: '1',
   chaincodePath: 'bcfit',
   rabbitmq: 'YOUR_RABBITMQ_URL',
-  // redisHost: 'redis-server',
-  // redisPort: 7000,
   redisUrl: 'YOUR_REDIS_URL',
-  iotDashUrl: 'https://think-iot-processor.mybluemix.net/steps?message=',
   orderer: {
     hostname: 'orderer0',
     url: 'grpc://orderer0:7050',

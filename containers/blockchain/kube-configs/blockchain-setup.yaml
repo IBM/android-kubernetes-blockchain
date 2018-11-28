@@ -1,45 +1,33 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
-  name: blockchain-setup-job
+  name: blockchain-setup-pod
   labels:
     app: blockchain-setup
 spec:
-  template:
-    metadata:
-      labels:
-        app: blockchain-setup
-    spec:
-      restartPolicy: "Never"
-      containers:
-      - image: anthonyamanse/kubecon-blockchain-setup:latest
-        imagePullPolicy: Always
-        # command: ["sleep"]
-        # args: ["10m"]
-        name: blockchain-setup
-        securityContext:
-          privileged: true
-        env:
-          - name: DOCKER_SOCKET_PATH
-            value: /host/var/run/docker.sock
-          - name: DOCKER_CCENV_IMAGE
-            value: "hyperledger/fabric-ccenv:x86_64-1.0.6"
-          - name: SECRETSDIR
-            value: /host/var/run/secrets
-        volumeMounts:
-          - name: dockersocket
-            mountPath: /host/var/run/docker.sock
-          - name: secret-volume
-            mountPath: /host/var/run/secrets
-      volumes:
-        - name: dockersocket
-          hostPath:
-            path: /var/run/docker.sock
-        - name: secret-volume
-          secret:
-            secretName: secret-files
-            items:
-              - key: config.json
-                path: config
-              - key: channel.tx
-                path: channel
+  restartPolicy: "Never"
+  containers:
+  - image: DOCKERHUB_USERNAME/codepattern-blockchain-setup:latest
+    imagePullPolicy: Always
+    name: blockchain-setup
+    securityContext:
+      privileged: true
+    env:
+      - name: DOCKER_HOST
+        value: "docker"
+      - name: DOCKER_CCENV_IMAGE
+        value: "hyperledger/fabric-ccenv:x86_64-1.0.6"
+      - name: SECRETSDIR
+        value: /host/var/run/secrets
+    volumeMounts:
+      - name: secret-volume
+        mountPath: /host/var/run/secrets
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: secret-files
+        items:
+          - key: config.json
+            path: config
+          - key: channel.tx
+            path: channel

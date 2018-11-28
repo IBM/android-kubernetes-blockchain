@@ -25,7 +25,7 @@ spec:
         app: orderer0
     spec:
       containers:
-      - image: anthonyamanse/kubecon-orderer-peer:latest
+      - image: DOCKERHUB_USERNAME/codepattern-orderer-peer:latest
         imagePullPolicy: Always
         workingDir: /orderer
         command: ["orderer"]
@@ -48,12 +48,6 @@ spec:
             value: "/orderer/crypto/msp"
           - name: ORDERER_GENERAL_TLS_ENABLED
             value: "false"
-          # - name: ORDERER_GENERAL_TLS_PRIVATEKEY
-          #   value: "/orderer/crypto/tls/server.key"
-          # - name: ORDERER_GENERAL_TLS_CERTIFICATE
-          #   value: "/orderer/crypto/tls/server.crt"
-          # - name: ORDERER_GENERAL_TLS_ROOTCAS
-          #   value: "[/orderer/crypto/tls/ca.crt]"
         volumeMounts:
           - name: orderer0-storage
             mountPath: /var/hyperledger/production

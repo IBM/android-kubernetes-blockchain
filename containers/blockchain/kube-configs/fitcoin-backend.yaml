@@ -11,14 +11,14 @@ spec:
         app: fitcoin-backend
     spec:
       containers:
-      - image: anthonyamanse/kubecon-backend:latest
+      - image: DOCKERHUB_USERNAME/codepattern-backend:latest
         imagePullPolicy: Always
         name: fitcoin-backend
         env:
           - name: ORGID
             value: "org.FitCoinOrg"
           - name: DOCKER_SOCKET_PATH
-            value: "/host/var/run/docker.sock"
+            value: "tcp://docker:2375"
           - name: DOCKER_CCENV_IMAGE
             value: "hyperledger/fabric-ccenv:x86_64-1.0.6"
           - name: SECRETSDIR
@@ -34,14 +34,9 @@ spec:
           - name: SCALECLIENT
             value: "1"
         volumeMounts:
-          - name: dockersocket
-            mountPath: /host/var/run/docker.sock
           - name: secret-volume
             mountPath: /host/var/run/secrets
       volumes:
-        - name: dockersocket
-          hostPath:
-            path: /var/run/docker.sock
         - name: secret-volume
           secret:
             secretName: secret-files

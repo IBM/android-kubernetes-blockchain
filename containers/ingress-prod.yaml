@@ -7,13 +7,13 @@ metadata:
 spec:
   tls:
   - hosts:
-    - anthony-blockchain.us-south.containers.mybluemix.net
-    secretName: anthony-blockchain
+    - YOUR_INGRESS_URL
+    secretName: YOUR_INGRESS_SECRET
   backend:
     serviceName: mobile-assets
     servicePort: 80
   rules:
-  - host: anthony-blockchain.us-south.containers.mybluemix.net
+  - host: YOUR_INGRESS_URL
     http:
       paths:
       - path: /api

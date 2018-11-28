@@ -27,7 +27,7 @@ spec:
         app: shop-peer
     spec:
       containers:
-      - image: anthonyamanse/kubecon-shop-peer:latest
+      - image: DOCKERHUB_USERNAME/codepattern-shop-peer:latest
         imagePullPolicy: Always
         workingDir: /peer
         command: ["peer"]
@@ -54,7 +54,7 @@ spec:
           - name: CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
             value: ""
           - name: CORE_VM_ENDPOINT
-            value: "unix:///host/var/run/docker.sock"
+            value: "tcp://docker:2375"
           - name: CORE_LOGGING_LEVEL
             value: "DEBUG"
           - name: CORE_PEER_TLS_ENABLED
@@ -69,12 +69,6 @@ spec:
             value: "true"
           - name: CORE_PEER_MSPCONFIGPATH
             value: "/peer/crypto/msp"
-          # - name: CORE_PEER_TLS_CERT_FILE
-          #   value: "/peer/crypto/tls/server.crt"
-          # - name: CORE_PEER_TLS_KEY_FILE
-          #   value: "/peer/crypto/tls/server.key"
-          # - name: CORE_PEER_TLS_ROOTCERT_FILE
-          #   value: "/peer/crypto/tls/ca.crt"
           - name: CORE_PEER_ADDRESSAUTODETECT
             value: "true"
           - name: CORE_PEER_NETWORKID
@@ -88,15 +82,10 @@ spec:
           - name: CORE_VM_DOCKER_ATTACHSTDOUT
             value: "true"
         volumeMounts:
-          - name: dockersocket
-            mountPath: /host/var/run/docker.sock
           - name: shop-peer-storage
             mountPath: /var/hyperledger/production
             subPath: shop-peer
       volumes:
-        - name: dockersocket
-          hostPath:
-            path: /var/run/docker.sock
         - name: shop-peer-storage
           persistentVolumeClaim:
             claimName: peer-claim
