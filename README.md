@@ -1,6 +1,6 @@
 # Create an Android app with Blockchain Integration
 
-In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabalities using Kubernetes. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
+In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabilities using Kubernetes. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
 
 This code pattern is for developers who wish to provide data anonymity and security to their users. Their users will be more confident to use their app if it gives them more control over their privacy. The developers can also extend the pattern to use the backend from different platforms.
 
@@ -39,7 +39,7 @@ The first time the user opens the app, he gets anonymously assigned a unique use
 * [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html): IBM Bluemix Container Service manages highly available apps inside Docker containers and Kubernetes clusters on the IBM Cloud.
 * [Hyperledger Fabric v1.0](https://www.hyperledger.org/projects/fabric): An implementation of blockchain technology that is intended as a foundation for developing blockchain applications or solutions for business.
 * [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb): MongoDB with its powerful indexing and querying, aggregation and wide driver support, has become the go-to JSON data store for many startups and enterprises.
-* [Compose for RabbitMQ](https://www.ibm.com/cloud/compose/rabbitmq): RabbitMQ is a messaging broker that asynchronously communicates between your applications and databases, allowing you to keep seperation between your data and app layers.
+* [Compose for RabbitMQ](https://www.ibm.com/cloud/compose/rabbitmq): RabbitMQ is a messaging broker that asynchronously communicates between your applications and databases, allowing you to keep separation between your data and app layers.
 * [Compose for Redis](https://www.ibm.com/cloud/compose/redis): An open-source, in-memory data structure store, used as a database, cache and message broker.
 * [Cloud Functions](https://www.ibm.com/cloud/functions): Execute code on demand in a highly scalable, serverless environment.
 
@@ -56,7 +56,7 @@ The first time the user opens the app, he gets anonymously assigned a unique use
 
 * Install [Node.js](https://nodejs.org/)
 
-* Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferrerd operating system. You would need docker if you want to build and use your own images.
+* Install [Docker](https://www.docker.com) by following the instructions [here](https://www.docker.com/community-edition#/download) for your preferred operating system. You would need docker if you want to build and use your own images.
 
 * Install [Android Studio](https://developer.android.com/studio/).
 
@@ -467,7 +467,7 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"type":"invoke","queue":
 
 * [Hyperledger Fabric Node SDK](https://fabric-sdk-node.github.io/): Node SDK to interact with the Hyperledger Fabric network.
 * [Google Fit](https://developers.google.com/fit): Give your app the capability to get and update fitness information.
-* [iOS version](https://github.com/IBM/kubecoin): A native iOS version of the app ineracting with the Hyperledger Fabric network.
+* [iOS version](https://github.com/IBM/kubecoin): A native iOS version of the app interacting with the Hyperledger Fabric network.
 
 # Learn more
 
