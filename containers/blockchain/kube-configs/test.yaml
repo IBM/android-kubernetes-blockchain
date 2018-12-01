@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-delete
+spec:
+  containers:
+  - name: container-test
+    command: ["sleep","60000"]
+    image: busybox
+    volumeMounts:
+    - name: couchdb-storage
+      mountPath: /tmp/couchdb
+    - name: ca-storage
+      mountPath: /tmp/ca
+    - name: peer-storage
+      mountPath: /tmp/peer
+  volumes:
+  - name: couchdb-storage
+    persistentVolumeClaim:
+      claimName: couchdb-claim
+  - name: ca-storage
+    persistentVolumeClaim:
+      claimName: org-ca-claim
+  - name: peer-storage
+    persistentVolumeClaim:
+      claimName: peer-claim

@@ -24,7 +24,7 @@ spec:
         app: rabbitclient-api
     spec:
       containers:
-      - image: anthonyamanse/kubecon-rabbitclient-api:latest
+      - image: DOCKERHUB_USERNAME/codepattern-rabbitclient-api:latest
         imagePullPolicy: Always
         name: rabbitclient-api
         ports:

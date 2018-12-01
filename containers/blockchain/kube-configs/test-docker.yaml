@@ -1,0 +1,41 @@
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: docker-test
+spec:
+  template:
+    metadata:
+      labels:
+        name: docker-test
+    spec:
+      containers:
+      - name: docker
+        image: docker:stable-dind
+        # command: ["sleep","60000"]
+        args:
+          - dockerd
+          - --containerd=/host/run/containerd/containerd.sock
+          # - --storage-driver=overlay2
+          - -H tcp://0.0.0.0:2375
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 2375
+          hostPort: 2375
+        volumeMounts:
+        - name: docker-storage
+          mountPath: /var/lib/docker
+        - name: docker-socket-location
+          mountPath: /var/run/dind
+        - name: dockersocket
+          mountPath: /host/run/containerd/containerd.sock
+      volumes:
+      - name: dockersocket
+        hostPath:
+          path: /run/containerd/containerd.sock
+      - name: docker-storage
+        emptyDir: {}
+      - name: docker-socket-location
+        hostPath:
+          path: /var/run/dind/

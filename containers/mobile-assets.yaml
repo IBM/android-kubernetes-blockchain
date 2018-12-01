@@ -29,7 +29,7 @@ spec:
         app: mobile-assets
     spec:
       containers:
-        - image: anthonyamanse/mobile-assets:latest
+        - image: DOCKERHUB_USERNAME/codepattern-mobile-assets:latest
           imagePullPolicy: Always
           name: mobile-assets
           env:

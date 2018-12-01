@@ -1,6 +1,6 @@
 # Create an Android app with Blockchain Integration
 
-In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabalities using Kubernetes. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
+In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabalities using Kubernetes. The blockchain framework implementation used is Hyperledger Fabric. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
 
 This code pattern is for developers who wish to provide data anonymity and security to their users. Their users will be more confident to use their app if it gives them more control over their privacy. The developers can also extend the pattern to use the backend from different platforms.
 
@@ -36,7 +36,7 @@ The first time the user opens the app, he gets anonymously assigned a unique use
 
 ## Included Components
 
-* [IBM Cloud Container Service](https://console.bluemix.net/docs/containers/container_index.html): IBM Bluemix Container Service manages highly available apps inside Docker containers and Kubernetes clusters on the IBM Cloud.
+* [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/container_index.html): IBM Cloud Kubernetes Service manages highly available apps inside Docker containers and Kubernetes clusters on the IBM Cloud.
 * [Hyperledger Fabric v1.0](https://www.hyperledger.org/projects/fabric): An implementation of blockchain technology that is intended as a foundation for developing blockchain applications or solutions for business.
 * [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb): MongoDB with its powerful indexing and querying, aggregation and wide driver support, has become the go-to JSON data store for many startups and enterprises.
 * [Compose for RabbitMQ](https://www.ibm.com/cloud/compose/rabbitmq): RabbitMQ is a messaging broker that asynchronously communicates between your applications and databases, allowing you to keep seperation between your data and app layers.
@@ -52,7 +52,7 @@ The first time the user opens the app, he gets anonymously assigned a unique use
 
 # Prerequisites
 
-* Create a Kubernetes cluster with either [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube) for local testing, or with [IBM Bluemix Container Service](https://console.bluemix.net/docs/containers/cs_cli_install.html#cs_cli_install) to deploy in cloud. The code here is regularly tested against [Kubernetes Cluster from Bluemix Container Service](https://console.ng.bluemix.net/docs/containers/cs_ov.html#cs_ov) using Travis.
+* Create a Kubernetes cluster with [IBM Cloud Kubernetes Service](https://console.bluemix.net/docs/containers/cs_cli_install.html#cs_cli_install) to deploy in cloud.
 
 * Install [Node.js](https://nodejs.org/)
 
@@ -72,7 +72,7 @@ $ git clone https://github.com/IBM/android-kubernetes-blockchain
 
 Create the following services:
 
-* [IBM Cloud Container Service](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
+* [IBM Cloud Kubernetes Service](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
 * [Compose for MongoDB](https://console.bluemix.net/catalog/services/compose-for-mongodb)
 * [Compose for RabbitMQ](https://console.bluemix.net/catalog/services/compose-for-rabbitmq)
 * [Compose for Redis](https://console.bluemix.net/catalog/services/compose-for-redis)
@@ -93,167 +93,34 @@ rabbitmq: 'amqps://admin:QWERTY@portal-ssl334-23.bmix-dal-yp-abc10717-6f73-4f63-
 redisUrl: 'redis://admin:QWERTY@sl-us-south-1-portal.23.dblayer.com:38916',
 ```
 
-* Generate certificates for the blockchain network
+* Configure the yaml files to use your MongoDB instance. Get the certificate and URL in your Compose for MongoDB dashboard.
+
+![mongo credentials](https://github.com/IBM/pattern-utils/blob/master/compose-dbs/mongo-url-string.png?raw=true)
+
+* Add the MongoDB URL in `leaderboard-api.yaml`, `mobile-assets.yaml`, `registeree-api.yaml` in the environment variable of `MONGODB_URL`
 
 ```
-$ cd containers/blockchain
-$ export FABRIC_CFG_PATH=$(pwd)
-```
-> The following script assumes you are running OSX.  If you are using Linux, you will need to `cp ubuntu/* .` before continuing
-```
-$ ./generate-certs.sh
-```
-
-* Build the docker images for your blockchain network
-
-```
-export DOCKERHUB_USERNAME=<your-dockerhub-username>
-
-docker build -t $DOCKERHUB_USERNAME/kubecon-orderer-peer:latest orderer/
-docker build -t $DOCKERHUB_USERNAME/kubecon-shop-peer:latest shopPeer/
-docker build -t $DOCKERHUB_USERNAME/kubecon-fitcoin-peer:latest fitcoinPeer/
-docker build -t $DOCKERHUB_USERNAME/kubecon-shop-ca:latest shopCertificateAuthority/
-docker build -t $DOCKERHUB_USERNAME/kubecon-fitcoin-ca:latest fitcoinCertificateAuthority/
-docker build -t $DOCKERHUB_USERNAME/kubecon-blockchain-setup:latest blockchainNetwork/
-docker build -t $DOCKERHUB_USERNAME/kubecon-backend:latest backend/
-docker build -t $DOCKERHUB_USERNAME/kubecon-rabbitclient-api:latest rabbitClient/
-
-docker push $DOCKERHUB_USERNAME/kubecon-orderer-peer:latest
-docker push $DOCKERHUB_USERNAME/kubecon-shop-peer:latest
-docker push $DOCKERHUB_USERNAME/kubecon-fitcoin-peer:latest
-docker push $DOCKERHUB_USERNAME/kubecon-shop-ca:latest
-docker push $DOCKERHUB_USERNAME/kubecon-fitcoin-ca:latest
-docker push $DOCKERHUB_USERNAME/kubecon-blockchain-setup:latest
-docker push $DOCKERHUB_USERNAME/kubecon-backend:latest
-docker push $DOCKERHUB_USERNAME/kubecon-rabbitclient-api:latest
-```
-
-* Edit these YAML files in `kube-configs` folder to use your images
-  * blockchain-setup.yaml
-  * orderer0.yaml
-  * shop-peer.yaml
-  * fitcoin-peer.yaml
-  * shop-ca.yaml
-  * fitcoin-ca.yaml
-  * fitcoin-backend.yaml
-  * rabbitclient-api.yaml
-
-* Modify `kube-configs/secrets.yaml` to use your configuration and the `channel.tx` generated
-
-```
-$ cat configuration/config.json | base64
-$ cat configuration/channel.tx | base64
-
-and place them in kube-configs/secrets.yaml
-
 ...
-data:
-  config.json: '<configruation/config.json in base64>'
-  channel.tx: '<configruation/channel.tx in base64>'
+env:
+  - name: MONGODB_URL
+    value: 'mongodb://admin:QWERTY@sl-us-south-1-po...'
 ...
+```
+
+* Build and push the images in Docker Hub. The provided script will help you build and push the images quicker. This will also modify the Kubernetes yaml files to use your your newly built images.
+
+> you will need to be logged in using `docker login`
+
+```
+$ ./buildAndPushImages.sh <YOUR_DOCKERHUB_USERNAME>
 ```
 
 ### 4. Deploy the Blockchain Network in Kubernetes
 
-* Change directory
+* Deploy the microservices in Kubernetes. The provided script will help you run `kubectl` commands. You will need to point your `kubectl` CLI to your [IKS](https://console.bluemix.net/docs/containers/cs_cli_install.html#cs_cli_configure).
 
 ```
-cd kube-configs
-```
-
-* Create persistent volumes for the Blockchain network (state database, certificates, and ledger). This creates persistent volume claims and gets provisioned dynamically.
-
-```
-$ kubectl create -f persistent-volume
-
-# wait for them to get provisioned using kubectl get
-
-$ kubectl get pv,pvc
-
-# you should see something like this:
-#
-# NAME                                          CAPACITY   ACCESSMODES   # RECLAIMPOLICY   STATUS    CLAIM                   STORAGECLASS     REASON    AGE
-# pv/pvc-f57460fc-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           Delete          Bound     default/peer-claim      ibmc-file-gold             5d
-# pv/pvc-f585de1d-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           Delete          Bound     default/org-ca-claim    ibmc-file-gold             5d
-# pv/pvc-f5970726-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           Delete          Bound     default/couchdb-claim   ibmc-file-gold             5d
-#
-# NAME                STATUS    VOLUME                                     CAPACITY   ACCESSMODES   STORAGECLASS     AGE
-# pvc/couchdb-claim   Bound     pvc-f5970726-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           ibmc-file-gold   5d
-# pvc/org-ca-claim    Bound     pvc-f585de1d-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           ibmc-file-gold   5d
-# pvc/peer-claim      Bound     pvc-f57460fc-500f-11e8-a7d6-36f53fdc1872   20Gi       RWX           ibmc-file-gold   5d
-```
-
-* Create the secrets and deploy the certificate authorities
-
-```
-$ kubectl create -f secrets.yaml
-$ kubectl apply -f shop-ca.yaml
-$ kubectl apply -f fitcoin-ca.yaml
-
-# Wait for them to run
-
-$ kubectl get pods
-```
-
-* Create couchdb. This is the statedb of the peers.
-
-```
-$ kubectl apply -f ca-datastore.yaml
-$ kubectl apply -f fitcoin-statedb.yaml
-$ kubectl apply -f shop-statedb.yaml
-
-# Wait for them to run
-
-$ kubectl get pods
-```
-
-* Create orderer and peers of the blockchain network. We have two organizations in the blockchain network, the Shop and Fitcoin.
-
-```
-$ kubectl apply -f orderer0.yaml
-$ kubectl apply -f shop-peer.yaml
-$ kubectl apply -f fitcoin-peer.yaml
-
-# Wait for them to run
-
-$ kubectl get pods
-```
-
-* Setup the Blockchain network with the blockchain-setup job. This creates and joins the peers in a channel and installs and instantiates the chaincode
-
-```
-$ kubectl apply -f blockchain-setup.yaml
-```
-
-* Check if the blockchain setup is complete by checking the logs of the blockchain-setup pod.
-
-```
-$ kubectl logs -l app=blockchain-setup
-
-# should result into:
-#
-# Default channel not found, attempting creation...
-# Successfully created a new default channel.
-# Joining peers to the default channel.
-# Chaincode is not installed, attempting installation...
-# Base container image present.
-# info: [packager/Golang.js]: packaging GOLANG from bcfit
-# info: [packager/Golang.js]: packaging GOLANG from bcfit
-# Successfully installed chaincode on the default channel.
-# Successfully instantiated chaincode on all peers.
-# Blockchain newtork setup complete.
-```
-
-* Once it is done, create the execution requests backend and the API client for the Blockchain network.
-
-```
-$ kubectl apply -f shop-backend.yaml
-$ kubectl apply -f fitcoin-backend.yaml
-$ kubectl apply -f rabbitclient-api.yaml
-
-# Wait for them to run
-
-$ kubectl get pods
+$ ./deployNetwork.sh
 ```
 
 * Test the blockchain network using its API client.
@@ -291,84 +158,9 @@ $ curl $URL/api/results/RESULT_ID
 
 * Well done! Your blockchain network is ready to be integrated with the Android app. Proceed to the next step to deploy more Microservices that are needed for the mobile app.
 
-### 5. Configure and Deploy Microservices in Kubernetes
+### 5. Expose the backend with Kubernetes Ingress
 
-* Build and push the Docker images. These services are used by the Android app. The android app gets its leaderboards and random user names and avatars from these services.
-
-```
-# Go back to the root directory of the repository.
-
-$ cd containers/
-
-$ docker build -t $DOCKERHUB_USERNAME/leaderboard:latest leaderboard/
-$ docker build -t $DOCKERHUB_USERNAME/mobile-assets:latest mobile-assets/
-$ docker build -t $DOCKERHUB_USERNAME/registeree-api:latest registeree-api/
-
-$ docker push $DOCKERHUB_USERNAME/leaderboard:latest
-$ docker push $DOCKERHUB_USERNAME/mobile-assets:latest
-$ docker push $DOCKERHUB_USERNAME/registeree-api:latest
-```
-
-* Configure the yaml files to use your MongoDB instance. Get the certificate and URL in your Compose for MongoDB dashboard.
-
-![mongo credentials](docs/mongo-credentials.png)
-
-![certificate](docs/mongo-certificate.png)
-
-* Encode the certificate in base64. You can do it in the terminal:
-
-```
-$ echo -n "< Paste the certificate here>" | base64
-
-# output would be like
-# LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURlVENDQW1HZ0F3SUJBZ0lFV3V0Z...
-```
-
-* Paste the output in `mongo-cert-secret.yaml`
-
-```
-...
-data:
-  mongo.cert: 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURlVENDQW1HZ0F3SUJBZ0lFV3V0Z...'
-...
-```
-
-* Add the MongoDB URL in `leaderboard-api.yaml`, `mobile-assets.yaml`, `registeree-api.yaml` in the environment variable of `MONGODB_URL`
-
-```
-...
-env:
-  - name: MONGODB_URL
-    value: 'mongodb://admin:QWERTY@sl-us-south-1-po...'
-...
-```
-
-* You would also want to update the images declared in the files `leaderboard-api.yaml`, `mobile-assets.yaml` and `registeree-api.yaml`.
-
-```
-...
-  containers:
-    - image: <the corresponding image name that you have built>
-...
-```
-
-* Deploy the microservices in kubernetes
-
-```
-# apply the certificate as a kubernetes secret
-$ kubectl apply -f mongo-cert-secret.yaml
-
-# deploy the microservices
-$ kubectl apply -f leaderboard-api.yaml
-$ kubectl apply -f mobile-assets.yaml
-$ kubectl apply -f registeree-api.yaml
-```
-
-* The 3 microservices above should now be running. You could check by doing `kubectl get pods`
-
-### 6. Expose the backend with Kubernetes Ingress
-
-* You would want to expose the backend you deployed so that the Android app can communicate with it. With Kubernetes Ingress, this would allow you to expose these microservices. You can use the provided Ingress Subdomain that came with the IBM Cloud Container Service.
+* You would want to expose the backend you deployed so that the Android app can communicate with it. With Kubernetes Ingress, this would allow you to expose these microservices. You can use the provided Ingress Subdomain that came with the IBM Cloud Kubernetes Service.
 
 ```
 $ bx cs cluster-get <Your cluster name here>
@@ -403,7 +195,7 @@ spec:
 $ kubectl apply -f ingress-prod.yaml
 ```
 
-### 7. Configure the Android app
+### 6. Configure the Android app
 
 * Open the `android` folder in the Android Studio IDE. The project is configured to do REST calls to the Kubernetes backend. You would need to change the `BACKEND_URL` variables to your own **Ingress Subdomain** in these Java files:
   * ContractListAdapter
@@ -424,7 +216,7 @@ String BACKEND_URL = "https://anthony-blockchain.us-south.containers.mybluemix.n
 ...
 ```
 
-### 8. Test the Android app
+### 7. Test the Android app
 
 * You could test the android app either in an [emulator](https://developer.android.com/studio/run/emulator) in Android Studio or on a [real device](https://developer.android.com/studio/run/device). To test the tracking of steps, you would need a real device and an [OAuth 2.0 Client ID](https://developers.google.com/fit/android/get-api-key). This authorizes your app to use the Google Fit API.
 

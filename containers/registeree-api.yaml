@@ -29,7 +29,7 @@ spec:
         app: registeree-api
     spec:
       containers:
-        - image: anthonyamanse/registeree-api:latest
+        - image: DOCKERHUB_USERNAME/codepattern-registeree-api:latest
           imagePullPolicy: Always
           name: registeree-api
           env:
