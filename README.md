@@ -1,5 +1,9 @@
 # Create an Android app with Blockchain Integration
 
+# WARNING: This repository is no longer maintained :warning:
+
+> This repository will not be updated. The repository will be kept available in read-only mode. Refer to https://developer.ibm.com/patterns/ for a the newest code pattern.
+
 In this code pattern, we will create an Android app that tracks the user's physical steps with Blockchain capabalities using Kubernetes. The blockchain framework implementation used is Hyperledger Fabric. The users are registered to the Blockchain network anonymously and get rewarded with some "coins" for the steps they take. The users can trade their coins for some swag and these transactions are executed in the Blockchain network. This Android app was used in KubeCon Europe 2018.
 
 This code pattern is for developers who wish to provide data anonymity and security to their users. Their users will be more confident to use their app if it gives them more control over their privacy. The developers can also extend the pattern to use the backend from different platforms.
